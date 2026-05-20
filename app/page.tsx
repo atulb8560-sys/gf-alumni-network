@@ -136,7 +136,7 @@ export default function Home() {
     }
   }
 
-  return ( isMobile ? (
+  return isMobile ? (
   <div
     style={{
       width: "100vw",
@@ -179,11 +179,11 @@ export default function Home() {
           maxWidth: "320px",
         }}
       >
-        Please open this dashboard on a desktop or laptop for the best experience.
+        Please open this dashboard on a desktop or laptop.
       </div>
     </div>
   </div>
-  )}
+
 ) : (
     <div
       style={{
