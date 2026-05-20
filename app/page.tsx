@@ -1,153 +1,147 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Modal from "react-modal"
 import { supabase } from "@/lib/supabase"
 
 export default function Home() {
-
   const [open, setOpen] = useState(false)
   const [email, setEmail] = useState("")
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)
   const [isVerified, setIsVerified] = useState(false)
 
-  useEffect(() => {
-
-    if (!isVerified) {
-      setOpen(true)
-    }
-
-  }, [isVerified])
-
   async function checkEmail() {
 
-    if (!email) return
+  if (!email) return
+
+  setLoading(true)
+  setError(false)
+
+  const { data } = await supabase
+    .from("User")
+    .select("email")
+    .eq("email", email)
+    .single()
+
+  if (data) {
 
     setLoading(true)
-    setError(false)
 
-    const { data } = await supabase
-      .from("User")
-      .select("email")
-      .eq("email", email)
-      .single()
+    setTimeout(() => {
 
-    if (data) {
+      setLoading(false)
 
-      setLoading(true)
+      const successBox = document.createElement("div")
 
-      setTimeout(() => {
-
-        setLoading(false)
-
-        const successBox = document.createElement("div")
-
-        successBox.innerHTML = `
+      successBox.innerHTML = `
+        <div style="
+          display:flex;
+          align-items:center;
+          gap:14px;
+        ">
+          
           <div style="
+            width:48px;
+            height:48px;
+            min-width:48px;
+            border-radius:50%;
+            background:#22C55E;
             display:flex;
             align-items:center;
-            gap:14px;
+            justify-content:center;
+            font-size:22px;
+            color:white;
+            font-weight:700;
+            box-shadow:0 0 30px rgba(34, 197, 94, 0.22);
+          ">
+            ✓
+          </div>
+
+          <div style="
+            display:flex;
+            flex-direction:column;
           ">
             
             <div style="
-              width:48px;
-              height:48px;
-              min-width:48px;
-              border-radius:50%;
-              background:#22C55E;
-              display:flex;
-              align-items:center;
-              justify-content:center;
-              font-size:22px;
-              color:white;
+              font-size:16px;
               font-weight:700;
-              box-shadow:0 0 30px rgba(34, 197, 94, 0.22);
+              color:#0F172A;
+              margin-bottom:3px;
             ">
-              ✓
+              You’re all set!
             </div>
 
             <div style="
-              display:flex;
-              flex-direction:column;
+              font-size:13px;
+              color:#667085;
+              line-height:18px;
+              max-width:240px;
             ">
-              
-              <div style="
-                font-size:16px;
-                font-weight:700;
-                color:#0F172A;
-                margin-bottom:3px;
-              ">
-                You’re all set!
-              </div>
-
-              <div style="
-                font-size:13px;
-                color:#667085;
-                line-height:18px;
-                max-width:240px;
-              ">
-                Dive in and explore the data.
-              </div>
+              Dive in and explore the data.
+            </div>
 
             </div>
 
           </div>
-        `
 
-        successBox.style.position = "fixed"
-        successBox.style.top = "50%"
-        successBox.style.left = "50%"
-        successBox.style.transform = "translate(-50%, -50%)"
-        successBox.style.padding = "18px 22px"
+        </div>
+      `
 
-        successBox.style.background =
-          "linear-gradient(135deg, #F4FFF7, #EEF7F1)"
+      successBox.style.position = "fixed"
+      successBox.style.top = "50%"
+      successBox.style.left = "50%"
+      successBox.style.transform = "translate(-50%, -50%)"
 
-        successBox.style.border =
-          "1px solid #A7E3BC"
+      successBox.style.padding = "18px 22px"
 
-        successBox.style.borderRadius = "22px"
+      successBox.style.background =
+        "linear-gradient(135deg, #F4FFF7, #EEF7F1)"
 
-        successBox.style.zIndex = "999999"
+      successBox.style.border =
+        "1px solid #A7E3BC"
 
-        successBox.style.boxShadow =
-          "0 10px 30px rgba(15, 23, 42, 0.12)"
+      successBox.style.borderRadius = "22px"
 
+      successBox.style.zIndex = "999999"
+
+      successBox.style.boxShadow =
+        "0 10px 30px rgba(15, 23, 42, 0.12)"
+
+      successBox.style.opacity = "0"
+
+      successBox.style.transition =
+        "all 0.45s ease"
+
+      successBox.style.backdropFilter =
+        "blur(10px)"
+
+      document.body.appendChild(successBox)
+
+      setOpen(false)
+
+      setTimeout(() => {
+        successBox.style.opacity = "1"
+      }, 100)
+
+      setTimeout(() => {
         successBox.style.opacity = "0"
+      }, 1800)
 
-        successBox.style.transition =
-          "all 0.45s ease"
+      setTimeout(() => {
+        document.body.removeChild(successBox)
+        setIsVerified(true)
+      }, 2300)
 
-        successBox.style.backdropFilter =
-          "blur(10px)"
+    }, 1200)
 
-        document.body.appendChild(successBox)
+  } else {
 
-        setOpen(false)
+    setLoading(false)
+    setError(true)
 
-        setTimeout(() => {
-          successBox.style.opacity = "1"
-        }, 100)
-
-        setTimeout(() => {
-          successBox.style.opacity = "0"
-        }, 1800)
-
-        setTimeout(() => {
-          document.body.removeChild(successBox)
-          setIsVerified(true)
-        }, 2300)
-
-      }, 1200)
-
-    } else {
-
-      setLoading(false)
-      setError(true)
-
-    }
   }
+}
 
   return (
     <div
@@ -165,16 +159,30 @@ export default function Home() {
         fontFamily: "Poppins, Inter, sans-serif"
       }}
     >
+      <style>
+        {`
+          @keyframes shake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-5px); }
+            40% { transform: translateX(5px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+            100% { transform: translateX(0); }
+          }
+        `}
+      </style>
+
+      {/* POPUP */}
 
       <Modal
         isOpen={open}
-        onRequestClose={() => {}}
+        onRequestClose={() => setOpen(false)}
         ariaHideApp={false}
         style={{
           overlay: {
-            background: "rgba(0,0,0,0.55)",
+            background: "rgba(0,0,0,0.35)",
             backdropFilter: "blur(10px)",
-            zIndex: 999999,
+            zIndex: 1000,
             display: "flex",
             justifyContent: "center",
             alignItems: "center"
@@ -188,7 +196,6 @@ export default function Home() {
           }
         }}
       >
-
         <div
           style={{
             position: "relative",
@@ -196,6 +203,7 @@ export default function Home() {
             height: "370px"
           }}
         >
+          {/* BACK BLUE LAYER */}
 
           <div
             style={{
@@ -211,6 +219,8 @@ export default function Home() {
             }}
           />
 
+          {/* MAIN POPUP */}
+
           <div
             style={{
               position: "absolute",
@@ -224,6 +234,31 @@ export default function Home() {
               overflow: "hidden"
             }}
           >
+            {/* CLOSE BUTTON */}
+
+            <button
+              onClick={() => setOpen(false)}
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                width: "25px",
+                height: "25px",
+                borderRadius: "50%",
+                border: "none",
+                background: "#F2F2F2",
+                color: "#4A4A4A",
+                fontSize: "16px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              ×
+            </button>
+
+            {/* HEADING */}
 
             <div
               style={{
@@ -239,6 +274,8 @@ export default function Home() {
               Unlock the Alumni Network
             </div>
 
+            {/* SUBTITLE */}
+
             <div
               style={{
                 marginBottom: "12px",
@@ -252,7 +289,8 @@ export default function Home() {
                     fontSize: "11px",
                     fontWeight: 700,
                     lineHeight: "18px",
-                    color: "#E63946"
+                    color: "#E63946",
+                    animation: "shake 0.4s ease-in-out"
                   }}
                 >
                   📋 Oops... seems you have not filled the form yet.
@@ -272,6 +310,8 @@ export default function Home() {
               )}
             </div>
 
+            {/* NETWORK ILLUSTRATION */}
+
             <div
               style={{
                 width: "100%",
@@ -284,8 +324,8 @@ export default function Home() {
               <img
                 src={
                   error
-                    ? "https://unsrekjwlfqdvqvvfukg.supabase.co/storage/v1/object/sign/Popup-Images/Register%20Icon.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8zOTQ3ZDQyNS1kYjg2LTQ1ZjItOGE3NC00OGZiOGIxODY0ZjUiLCJhbGciOiJIUzI1NiJ9"
-                    : "https://unsrekjwlfqdvqvvfukg.supabase.co/storage/v1/object/sign/Popup-Images/Login%20Icon.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8zOTQ3ZDQyNS1kYjg2LTQ1ZjItOGE3NC00OGZiOGIxODY0ZjUiLCJhbGciOiJIUzI1NiJ9"
+                    ? "https://unsrekjwlfqdvqvvfukg.supabase.co/storage/v1/object/sign/Popup-Images/Register%20Icon.png?token=eyJ..."
+                    : "https://unsrekjwlfqdvqvvfukg.supabase.co/storage/v1/object/sign/Popup-Images/Login%20Icon.png?token=eyJ..."
                 }
                 alt="popup illustration"
                 style={{
@@ -297,6 +337,8 @@ export default function Home() {
               />
             </div>
 
+            {/* CTA BOX */}
+
             <div
               style={{
                 background: "#F8FBFF",
@@ -306,11 +348,8 @@ export default function Home() {
                 boxShadow: "0 10px 30px rgba(0,0,0,0.05)"
               }}
             >
-
               {error ? (
-
                 <div>
-
                   <button
                     onClick={() => {
                       window.open(
@@ -332,11 +371,8 @@ export default function Home() {
                   >
                     ✏️ Register Here →
                   </button>
-
                 </div>
-
               ) : (
-
                 <>
                   <input
                     type="email"
@@ -367,22 +403,130 @@ export default function Home() {
                       color: "#FFFFFF",
                       fontSize: "14px",
                       fontWeight: 600,
-                      cursor: "pointer"
+                      cursor: "pointer",
+                      boxShadow: "0 10px 20px rgba(0,91,255,0.25)"
                     }}
                   >
                     {loading ? "Processing..." : "View Report"}
                   </button>
                 </>
-
               )}
-
             </div>
-
           </div>
-
         </div>
-
       </Modal>
+
+      {/* INVISIBLE BLOCK BUTTONS */}
+
+      {!isVerified && (
+        <>
+          {/* OVERVIEW TAB OPEN RAHEGA */}
+
+          {/* ALL */}
+          <button
+            onClick={() => setOpen(true)}
+            style={{
+              position: "fixed",
+              left: "93px",
+              top: "195px",
+              width: "134px",
+              height: "28px",
+              opacity: 0,
+              zIndex: 9999,
+              border: "none",
+              background: "transparent",
+              cursor: "pointer"
+            }}
+          />
+
+          {/* TOP STATES */}
+          <button
+            onClick={() => setOpen(true)}
+            style={{
+              position: "fixed",
+              left: "93px",
+              top: "234px",
+              width: "134px",
+              height: "28px",
+              opacity: 0,
+              zIndex: 9999,
+              border: "none",
+              background: "transparent",
+              cursor: "pointer"
+            }}
+          />
+
+          {/* DISTRICT */}
+          <button
+            onClick={() => setOpen(true)}
+            style={{
+              position: "fixed",
+              left: "93px",
+              top: "272px",
+              width: "134px",
+              height: "28px",
+              opacity: 0,
+              zIndex: 9999,
+              border: "none",
+              background: "transparent",
+              cursor: "pointer"
+            }}
+          />
+
+          {/* STATE */}
+          <button
+            onClick={() => setOpen(true)}
+            style={{
+              position: "fixed",
+              left: "93px",
+              top: "312px",
+              width: "134px",
+              height: "28px",
+              opacity: 0,
+              zIndex: 9999,
+              border: "none",
+              background: "transparent",
+              cursor: "pointer"
+            }}
+          />
+
+          {/* GENDER */}
+          <button
+            onClick={() => setOpen(true)}
+            style={{
+              position: "fixed",
+              left: "93px",
+              top: "350px",
+              width: "134px",
+              height: "28px",
+              opacity: 0,
+              zIndex: 9999,
+              border: "none",
+              background: "transparent",
+              cursor: "pointer"
+            }}
+          />
+
+          {/* CATEGORY */}
+          <button
+            onClick={() => setOpen(true)}
+            style={{
+              position: "fixed",
+              left: "93px",
+              top: "385px",
+              width: "134px",
+              height: "28px",
+              opacity: 0,
+              zIndex: 9999,
+              border: "none",
+              background: "transparent",
+              cursor: "pointer"
+            }}
+          />
+        </>
+      )}
+
+      {/* POWER BI */}
 
       <iframe
         title="GF_India_Dashboard"
@@ -396,7 +540,6 @@ export default function Home() {
         }}
         allowFullScreen
       ></iframe>
-
     </div>
   )
 }
