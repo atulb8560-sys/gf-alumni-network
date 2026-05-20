@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Modal from "react-modal"
 import { supabase } from "@/lib/supabase"
 
@@ -10,7 +10,19 @@ export default function Home() {
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)
   const [isVerified, setIsVerified] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
+  useEffect(() => {
+  const checkMobile = () => {
+    setIsMobile(window.innerWidth < 900)
+  }
+
+  checkMobile()
+
+  window.addEventListener("resize", checkMobile)
+
+  return () => window.removeEventListener("resize", checkMobile)
+}, [])
   async function checkEmail() {
     if (!email) return
 
@@ -124,7 +136,55 @@ export default function Home() {
     }
   }
 
-  return (
+  return ( isMobile ? (
+  <div
+    style={{
+      width: "100vw",
+      height: "100vh",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      background: "#F8FAFC",
+      padding: "25px",
+      textAlign: "center",
+      fontFamily: "Poppins, sans-serif",
+    }}
+  >
+    <div>
+      <div
+        style={{
+          fontSize: "60px",
+          marginBottom: "18px",
+        }}
+      >
+        💻
+      </div>
+
+      <div
+        style={{
+          fontSize: "26px",
+          fontWeight: 700,
+          color: "#0F172A",
+          marginBottom: "12px",
+        }}
+      >
+        Desktop / Laptop Only
+      </div>
+
+      <div
+        style={{
+          fontSize: "15px",
+          color: "#64748B",
+          lineHeight: "26px",
+          maxWidth: "320px",
+        }}
+      >
+        Please open this dashboard on a desktop or laptop for the best experience.
+      </div>
+    </div>
+  </div>
+  )}
+) : (
     <div
       style={{
         width: "100vw",
@@ -581,7 +641,6 @@ export default function Home() {
           height: "84vh",
           transform: "scale(1.23)",
           transformOrigin: "top center",
-          pointerEvents: isVerified ? "auto" : "none",
         }}
         allowFullScreen
       ></iframe>
