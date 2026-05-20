@@ -438,7 +438,6 @@ export default function Home() {
       </Modal>
 
       {/* INVISIBLE BLOCK BUTTONS */}
-
 {!isVerified && (
   <div
     style={{
@@ -448,8 +447,10 @@ export default function Home() {
       width: "100vw",
       height: "100vh",
       zIndex: 9999,
+      pointerEvents: "none",
     }}
   >
+    {/* DIRECTORY */}
     <button
       onClick={() => setOpen(true)}
       style={{
@@ -462,9 +463,11 @@ export default function Home() {
         border: "none",
         background: "transparent",
         cursor: "pointer",
+        pointerEvents: "auto",
       }}
     />
 
+    {/* BY BATCH */}
     <button
       onClick={() => setOpen(true)}
       style={{
@@ -477,9 +480,11 @@ export default function Home() {
         border: "none",
         background: "transparent",
         cursor: "pointer",
+        pointerEvents: "auto",
       }}
     />
 
+    {/* BY LOCATION */}
     <button
       onClick={() => setOpen(true)}
       style={{
@@ -492,9 +497,11 @@ export default function Home() {
         border: "none",
         background: "transparent",
         cursor: "pointer",
+        pointerEvents: "auto",
       }}
     />
 
+    {/* INSIGHTS */}
     <button
       onClick={() => setOpen(true)}
       style={{
@@ -507,9 +514,11 @@ export default function Home() {
         border: "none",
         background: "transparent",
         cursor: "pointer",
+        pointerEvents: "auto",
       }}
     />
 
+    {/* ALUMNI STORIES */}
     <button
       onClick={() => setOpen(true)}
       style={{
@@ -522,9 +531,11 @@ export default function Home() {
         border: "none",
         background: "transparent",
         cursor: "pointer",
+        pointerEvents: "auto",
       }}
     />
 
+    {/* OPPORTUNITIES */}
     <button
       onClick={() => setOpen(true)}
       style={{
@@ -537,9 +548,11 @@ export default function Home() {
         border: "none",
         background: "transparent",
         cursor: "pointer",
+        pointerEvents: "auto",
       }}
     />
 
+    {/* ORGANIZATIONS */}
     <button
       onClick={() => setOpen(true)}
       style={{
@@ -552,6 +565,7 @@ export default function Home() {
         border: "none",
         background: "transparent",
         cursor: "pointer",
+        pointerEvents: "auto",
       }}
     />
   </div>
