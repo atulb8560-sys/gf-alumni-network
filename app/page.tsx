@@ -581,6 +581,7 @@ export default function Home() {
           height: "84vh",
           transform: "scale(1.23)",
           transformOrigin: "top center",
+          pointerEvents: isVerified ? "auto" : "none",
         }}
         allowFullScreen
       ></iframe>
