@@ -438,121 +438,124 @@ export default function Home() {
       </Modal>
 
       {/* INVISIBLE BLOCK BUTTONS */}
-      {!isVerified && (
-        <>
-          <button
-            onClick={() => setOpen(true)}
-            style={{
-              position: "fixed",
-              left: "93px",
-              top: "156px",
-              width: "134px",
-              height: "28px",
-              opacity: 0,
-              zIndex: 9999,
-              border: "none",
-              background: "transparent",
-              cursor: "pointer",
-            }}
-          />
 
-          <button
-            onClick={() => setOpen(true)}
-            style={{
-              position: "fixed",
-              left: "93px",
-              top: "195px",
-              width: "134px",
-              height: "28px",
-              opacity: 0,
-              zIndex: 9999,
-              border: "none",
-              background: "transparent",
-              cursor: "pointer",
-            }}
-          />
+{!isVerified && (
+  <div
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      zIndex: 9999,
+    }}
+  >
+    <button
+      onClick={() => setOpen(true)}
+      style={{
+        position: "absolute",
+        left: "93px",
+        top: "156px",
+        width: "134px",
+        height: "28px",
+        opacity: 0,
+        border: "none",
+        background: "transparent",
+        cursor: "pointer",
+      }}
+    />
 
-          <button
-            onClick={() => setOpen(true)}
-            style={{
-              position: "fixed",
-              left: "93px",
-              top: "234px",
-              width: "134px",
-              height: "28px",
-              opacity: 0,
-              zIndex: 9999,
-              border: "none",
-              background: "transparent",
-              cursor: "pointer",
-            }}
-          />
+    <button
+      onClick={() => setOpen(true)}
+      style={{
+        position: "absolute",
+        left: "93px",
+        top: "195px",
+        width: "134px",
+        height: "28px",
+        opacity: 0,
+        border: "none",
+        background: "transparent",
+        cursor: "pointer",
+      }}
+    />
 
-          <button
-            onClick={() => setOpen(true)}
-            style={{
-              position: "fixed",
-              left: "93px",
-              top: "312px",
-              width: "134px",
-              height: "28px",
-              opacity: 0,
-              zIndex: 9999,
-              border: "none",
-              background: "transparent",
-              cursor: "pointer",
-            }}
-          />
+    <button
+      onClick={() => setOpen(true)}
+      style={{
+        position: "absolute",
+        left: "93px",
+        top: "234px",
+        width: "134px",
+        height: "28px",
+        opacity: 0,
+        border: "none",
+        background: "transparent",
+        cursor: "pointer",
+      }}
+    />
 
-          <button
-            onClick={() => setOpen(true)}
-            style={{
-              position: "fixed",
-              left: "93px",
-              top: "350px",
-              width: "134px",
-              height: "28px",
-              opacity: 0,
-              zIndex: 9999,
-              border: "none",
-              background: "transparent",
-              cursor: "pointer",
-            }}
-          />
+    <button
+      onClick={() => setOpen(true)}
+      style={{
+        position: "absolute",
+        left: "93px",
+        top: "272px",
+        width: "134px",
+        height: "28px",
+        opacity: 0,
+        border: "none",
+        background: "transparent",
+        cursor: "pointer",
+      }}
+    />
 
-          <button
-            onClick={() => setOpen(true)}
-            style={{
-              position: "fixed",
-              left: "93px",
-              top: "385px",
-              width: "134px",
-              height: "28px",
-              opacity: 0,
-              zIndex: 9999,
-              border: "none",
-              background: "transparent",
-              cursor: "pointer",
-            }}
-          />
+    <button
+      onClick={() => setOpen(true)}
+      style={{
+        position: "absolute",
+        left: "93px",
+        top: "312px",
+        width: "134px",
+        height: "28px",
+        opacity: 0,
+        border: "none",
+        background: "transparent",
+        cursor: "pointer",
+      }}
+    />
 
-          <button
-            onClick={() => setOpen(true)}
-            style={{
-              position: "fixed",
-              left: "93px",
-              top: "272px",
-              width: "134px",
-              height: "28px",
-              opacity: 0,
-              zIndex: 9999,
-              border: "none",
-              background: "transparent",
-              cursor: "pointer",
-            }}
-          />
-        </>
-      )}
+    <button
+      onClick={() => setOpen(true)}
+      style={{
+        position: "absolute",
+        left: "93px",
+        top: "350px",
+        width: "134px",
+        height: "28px",
+        opacity: 0,
+        border: "none",
+        background: "transparent",
+        cursor: "pointer",
+      }}
+    />
+
+    <button
+      onClick={() => setOpen(true)}
+      style={{
+        position: "absolute",
+        left: "93px",
+        top: "385px",
+        width: "134px",
+        height: "28px",
+        opacity: 0,
+        border: "none",
+        background: "transparent",
+        cursor: "pointer",
+      }}
+    />
+  </div>
+)}
 
       {/* POWER BI */}
       <iframe
